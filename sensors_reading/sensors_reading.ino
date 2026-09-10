@@ -3,7 +3,7 @@
 // =====================================================
 
 #define MOISTURE_PIN A0
-#define PH_PIN A1
+#define PH_PIN A4
 
 void setup() {
   Serial.begin(9600);
