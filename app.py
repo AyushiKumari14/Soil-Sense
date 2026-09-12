@@ -6,28 +6,13 @@ from datetime import datetime
 
 from weather import get_weather, API_KEY
 
-
-# =========================================================
-# SETTINGS
-# =========================================================
-
 COM_PORT = "COM5"
 BAUD_RATE = 9600
-
-
-# =========================================================
-# PAGE
-# =========================================================
-
 st.set_page_config(
     page_title="Smart Agriculture Dashboard",
     page_icon="🌱",
     layout="wide"
 )
-
-# =========================================================
-# DEFAULT FONT SIZE
-# =========================================================
 
 st.markdown(
     """
@@ -65,10 +50,8 @@ st.markdown(
         font-size: 48px !important;
     }
 
-    /* =====================================================
 # SIDEBAR
-      # ===================================================== */
-
+     
     section[data-testid="stSidebar"] p,
     section[data-testid="stSidebar"] label,
     section[data-testid="stSidebar"] div {
@@ -96,9 +79,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-# =========================================================
-# SESSION STATE
-# =========================================================
 
 if "arduino" not in st.session_state:
     st.session_state.arduino = None
@@ -118,10 +98,6 @@ if "last_weather" not in st.session_state:
 if "weather_city" not in st.session_state:
     st.session_state.weather_city = ""
 
-
-# =========================================================
-# SIDEBAR
-# =========================================================
 
 st.sidebar.header("⚙️ Project Settings")
 
@@ -149,11 +125,6 @@ get_weather_button = st.sidebar.button(
     "🌤️ Get Weather"
 )
 
-
-# =========================================================
-# ARDUINO CONNECTION
-# =========================================================
-
 def connect_arduino():
     try:
         arduino = serial.Serial(COM_PORT, BAUD_RATE, timeout=2)
@@ -176,16 +147,9 @@ def read_arduino(arduino):
     except Exception:
         return None, None
     return None, None
-
-
-# =========================================================
+    
 # GET WEATHER (delegated to weather.py)
-# =========================================================
-
-# =========================================================
 # GET WEATHER
-# =========================================================
-
 weather = None
 forecast = None
 weather_error = None
@@ -208,17 +172,8 @@ else:
 
     weather = st.session_state.last_weather
 
-# =========================================================
-# WEATHER VALUES
-# =========================================================
-# weather.py returns a flat dict:
-#   {"temperature": ..., "humidity": ..., "description": ...}
-# or {"error": "..."} on failure.
 
-# =========================================================
 # WEATHER VALUES
-# =========================================================
-
 temperature = None
 humidity = None
 weather_description = "Unknown"
@@ -241,10 +196,7 @@ if weather and not weather_error:
         humidity = None
         weather_description = "Unknown"
 
-
-# =========================================================
 # MOISTURE DATA
-# =========================================================
 
 moisture = None
 ph = None
@@ -267,9 +219,8 @@ elif mode == "Demo Random Data":
     ph = round(random.uniform(5.0, 8.0), 2)
 
 
-# =========================================================
 # SOIL ANALYSIS
-# =========================================================
+
 
 soil_status = "Unknown"
 moisture_percent = 0
@@ -289,12 +240,7 @@ if moisture is not None:
         soil_status = "MODERATE"
     else:
         soil_status = "WET"
-
-
-# =========================================================
 # PH STATUS
-# =========================================================
-
 def get_ph_status(ph_value):
     if ph_value is None:
         return "Unknown"
@@ -304,11 +250,6 @@ def get_ph_status(ph_value):
         return "BASIC"
     else:
         return "NEUTRAL"
-
-
-# =========================================================
-# SAVE READING HISTORY
-# =========================================================
 
 if moisture is not None:
     now = datetime.now().strftime("%H:%M:%S")
@@ -330,18 +271,13 @@ if moisture is not None:
 if len(st.session_state.history) > 30:
     st.session_state.history = st.session_state.history[-30:]
 
-
-# =========================================================
 # LOCATION DISPLAY
-# =========================================================
-
 st.subheader("📍 Selected Location")
 st.write(f"**{city}, {country}**")
 
 
-# =========================================================
+
 # LIVE MONITORING
-# =========================================================
 
 st.subheader("📊 Live Monitoring")
 
@@ -363,11 +299,9 @@ with col5:
     st.metric("🧪 Soil pH", f"{ph:.2f}" if ph is not None else "N/A")
     if ph is not None:
         st.caption(f"{get_ph_status(ph)}")
-
-
-# =========================================================
+        
 # SOIL MOISTURE LEVEL
-# =========================================================
+
 
 st.subheader("🌱 Soil Moisture Level")
 
@@ -378,9 +312,6 @@ else:
     st.warning("No moisture reading available.")
 
 
-# =========================================================
-# HISTORY
-# =========================================================
 
 st.subheader("📈 Moisture History")
 
@@ -395,13 +326,6 @@ else:
     st.info("No readings collected yet.")
 
 
-# =========================================================
-# WEATHER DISPLAY
-# =========================================================
-
-# =========================================================
-# WEATHER DISPLAY
-# =========================================================
 
 st.subheader("🌤️ Weather Information")
 
@@ -432,9 +356,6 @@ else:
         "Enter your city and click 'Get Weather'."
     )
 
-# =========================================================
-# AGRICULTURE ANALYSIS
-# =========================================================
 
 st.subheader("🤖 Agriculture Analysis")
 
@@ -451,10 +372,7 @@ else:
         st.info("💦 Soil is wet. Avoid unnecessary irrigation.")
 
 
-# =========================================================
 # CROP RECOMMENDATION
-# =========================================================
-
 st.subheader("🌾 Crop / Plant Recommendations")
 
 recommendations = []
@@ -502,9 +420,6 @@ if moisture is not None:
         ])
 
 
-# =========================================================
-# TEMPERATURE FILTER
-# =========================================================
 
 filtered_recommendations = []
 
@@ -528,9 +443,7 @@ for crop in recommendations:
         filtered_recommendations.append(crop)
 
 
-# =========================================================
 # DISPLAY RECOMMENDATIONS
-# =========================================================
 
 if filtered_recommendations:
     for crop in filtered_recommendations:
@@ -542,9 +455,7 @@ else:
     st.info(
         "No strong crop match was found for the current conditions."
     )
-# =========================================================
-# PLANT GROWING ADVICE
-# =========================================================
+
 
 st.subheader("🌱 Plant Growing Recommendation")
 
@@ -565,10 +476,7 @@ if temperature is not None:
         st.info("❄️ Temperature is low. Choose crops suitable for cooler conditions.")
 
 
-# =========================================================
 # SYSTEM STATUS
-# =========================================================
-
 st.subheader("🔌 System Status")
 
 if mode == "Demo Random Data":
@@ -585,9 +493,7 @@ else:
     st.warning("Weather API Not Connected")
 
 
-# =========================================================
-# FOOTER
-# =========================================================
+
 
 st.divider()
 
