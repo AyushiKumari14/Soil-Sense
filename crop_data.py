@@ -1,15 +1,8 @@
-# =========================================================
-# CROP AND PLANT DATABASE
-# =========================================================
-# These are simplified educational/project ranges.
-# Actual suitability depends on soil type, crop variety,
-# crop stage, climate and farming method.
+
 
 CROP_DATA = [
 
-    # =====================================================
-    # CEREALS
-    # =====================================================
+   
 
     {
         "name": "Rice",
@@ -76,9 +69,6 @@ CROP_DATA = [
         "description": "Relatively drought tolerant."
     },
 
-    # =====================================================
-    # PULSES
-    # =====================================================
 
     {
         "name": "Chickpea",
@@ -106,9 +96,6 @@ CROP_DATA = [
         "description": "Warm-season pulse with moderate water requirement."
     },
 
-    # =====================================================
-    # OILSEEDS
-    # =====================================================
 
     {
         "name": "Groundnut",
@@ -136,9 +123,6 @@ CROP_DATA = [
         "description": "Performs well in moderately moist soil."
     },
 
-    # =====================================================
-    # VEGETABLES
-    # =====================================================
 
     {
         "name": "Tomato",
@@ -218,9 +202,6 @@ CROP_DATA = [
         "description": "Needs regular moisture."
     },
 
-    # =====================================================
-    # FRUITS
-    # =====================================================
 
     {
         "name": "Watermelon",
@@ -286,10 +267,6 @@ CROP_DATA = [
         "water_need": "Medium",
         "description": "Needs moderate moisture and good drainage."
     },
-
-    # =====================================================
-    # OTHER PLANTS
-    # =====================================================
 
     {
         "name": "Spinach",
